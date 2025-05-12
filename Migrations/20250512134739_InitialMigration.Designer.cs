@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace EF010.CodeFirstMigration.Migrations
+namespace EF_Core_Project.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250512102310_Drop_SectionSchedule_update_sections")]
-    partial class Drop_SectionSchedule_update_sections
+    [Migration("20250512134739_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -64,12 +64,7 @@ namespace EF010.CodeFirstMigration.Migrations
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    b.Property<string>("FName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("VARCHAR");
-
-                    b.Property<string>("LName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("VARCHAR");
