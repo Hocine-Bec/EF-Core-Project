@@ -11,7 +11,9 @@ namespace EF010.CodeFirstMigration.Data
         public DbSet<Office> Offices { get; set; }
         public DbSet<Section> Sections { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
-        public DbSet<Student> Students { get; set; }
+        public DbSet<Participant> Participants { get; set; }
+        public DbSet<Individual> Individuals { get; set; }
+        public DbSet<Corporate> Corporates { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
