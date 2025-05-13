@@ -12,6 +12,6 @@ namespace EF010.CodeFirstMigration.Entities
         public int StudentId { get; set; }
 
         public Section Section { get; set; } = null!;
-        public Student Student { get; set; } = null!;
+        public Participant Participant { get; set; } = null!;
     }
 }

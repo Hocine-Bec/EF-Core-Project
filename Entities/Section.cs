@@ -11,7 +11,7 @@
         public int ScheduleId { get; set; }
         public Schedule Schedule { get; set; }
         public TimeSlot TimeSlot { get; set; }
-        public ICollection<Student> Students { get; set; } = new List<Student>();
+        public ICollection<Participant> Participants { get; set; } = new List<Participant>();
     }
 
     public class TimeSlot

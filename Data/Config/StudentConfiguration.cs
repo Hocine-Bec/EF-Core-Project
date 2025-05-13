@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EF010.CodeFirstMigration.Data.Config
 {
-    public class StudentConfiguration : IEntityTypeConfiguration<Student>
+    public class StudentConfiguration : IEntityTypeConfiguration<Participant>
     {
-        public void Configure(EntityTypeBuilder<Student> builder)
+        public void Configure(EntityTypeBuilder<Participant> builder)
         {
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).ValueGeneratedNever();
@@ -20,7 +20,7 @@ namespace EF010.CodeFirstMigration.Data.Config
             .HasMaxLength(50).IsRequired();
 
 
-            builder.ToTable("Students");
+            builder.ToTable("Participants");
         }
     }
 }

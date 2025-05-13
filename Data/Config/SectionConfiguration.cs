@@ -36,7 +36,7 @@ namespace EF010.CodeFirstMigration.Data.Config
                 .HasForeignKey(x => x.ScheduleId)
                 .IsRequired();
 
-            builder.HasMany(c => c.Students)
+            builder.HasMany(c => c.Participants)
                 .WithMany(x => x.Sections)
                 .UsingEntity<Enrollment>();
 
