@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EF010.CodeFirstMigration.Data.Config
 {
-    public class StudentConfiguration : IEntityTypeConfiguration<Participant>
+    public class ParticipantConfiguration : IEntityTypeConfiguration<Participant>
     {
         public void Configure(EntityTypeBuilder<Participant> builder)
         {

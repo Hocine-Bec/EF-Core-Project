@@ -1,5 +1,7 @@
 ﻿using EF010.CodeFirstMigration.Data;
+using EF010.CodeFirstMigration.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace EF010.CodeFirstMigration
 {
@@ -7,29 +9,29 @@ namespace EF010.CodeFirstMigration
     {
         public static void Main(string[] args)
         {
+            var participant1 = new Individual()
+            {
+                Id = 1,
+                FName = "Ahmed",
+                LName = "Ali",
+                University = "JUST",
+                YearOfGrad = 2024,
+                IsIntern = false
+            };
+            var participant2 = new Corporate()
+            {
+                Id = 2,
+                FName = "Ahmed",
+                LName = "Ali",
+                Company = "Metigator",
+                JobTitle = "Software Engineer"
+            };
+
             using (var context = new AppDbContext())
             {
-                var sections = context.Sections
-                    .Include(x => x.Course)
-                    .Include(x => x.Instructor)
-                    .Include(x => x.Schedule);
-                    //.Include(x => x.SectionSchedules);
-
-                Console.WriteLine("| Id |  Course      | Section | Instructor           | Schedule       | Time Slot     | SUN | MON | TUE | WED | THU | FRI | SAT |");
-                Console.WriteLine("|----|--------------|---------|----------------------|----------------|---------------|-----|-----|-----|-----|-----|-----|-----|");
-
-                foreach (var section in sections)
-                {
-                    string sunday = section.Schedule.SUN ? " x" : "";
-                    string monday = section.Schedule.MON ? " x" : "";
-                    string tuesday = section.Schedule.TUE ? " x" : "";
-                    string wednesday = section.Schedule.WED ? " x" : "";
-                    string thursday = section.Schedule.THU ? " x" : "";
-                    string friday = section.Schedule.FRI ? " x" : "";
-                    string saturday = section.Schedule.SAT ? " x" : "";
-
-                    Console.WriteLine($"| {section.Id.ToString().PadLeft(2, '0')} | {section.Course.CourseName,-12} | {section.SectionName,-7} | {(section.Instructor?.Name),-20} | {section.Schedule.Title,-14} | {section.TimeSlot,-9} | {sunday,-3} | {monday,-3} | {tuesday,-3} | {wednesday,-3} | {thursday,-3} | {friday,-3} | {saturday,-3} |");
-                }
+                context.Participants.Add(participant1);
+                context.Participants.Add(participant2);
+                context.SaveChanges();
             }
 
             Console.ReadKey();

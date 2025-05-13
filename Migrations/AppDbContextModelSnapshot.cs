@@ -49,9 +49,12 @@ namespace EF_Core_Project.Migrations
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
 
+                    b.Property<int>("ParticipantId")
+                        .HasColumnType("int");
+
                     b.HasKey("SectionId", "StudentId");
 
-                    b.HasIndex("StudentId");
+                    b.HasIndex("ParticipantId");
 
                     b.ToTable("Enrollments", (string)null);
                 });
@@ -96,6 +99,35 @@ namespace EF_Core_Project.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Offices", (string)null);
+                });
+
+            modelBuilder.Entity("EF010.CodeFirstMigration.Entities.Participant", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("nvarchar(13)");
+
+                    b.Property<string>("FName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<string>("LName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("VARCHAR");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Participants", (string)null);
+
+                    b.HasDiscriminator().HasValue("Participant");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("EF010.CodeFirstMigration.Entities.Schedule", b =>
@@ -162,43 +194,55 @@ namespace EF_Core_Project.Migrations
                     b.ToTable("Sections", (string)null);
                 });
 
-            modelBuilder.Entity("EF010.CodeFirstMigration.Entities.Student", b =>
+            modelBuilder.Entity("EF010.CodeFirstMigration.Entities.Corporate", b =>
                 {
-                    b.Property<int>("Id")
+                    b.HasBaseType("EF010.CodeFirstMigration.Entities.Participant");
+
+                    b.Property<string>("Company")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("JobTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue("Corporate");
+                });
+
+            modelBuilder.Entity("EF010.CodeFirstMigration.Entities.Individual", b =>
+                {
+                    b.HasBaseType("EF010.CodeFirstMigration.Entities.Participant");
+
+                    b.Property<bool>("IsIntern")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("University")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("YearOfGrad")
                         .HasColumnType("int");
 
-                    b.Property<string>("FName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("VARCHAR");
-
-                    b.Property<string>("LName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("VARCHAR");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Students", (string)null);
+                    b.HasDiscriminator().HasValue("Individual");
                 });
 
             modelBuilder.Entity("EF010.CodeFirstMigration.Entities.Enrollment", b =>
                 {
+                    b.HasOne("EF010.CodeFirstMigration.Entities.Participant", "Participant")
+                        .WithMany()
+                        .HasForeignKey("ParticipantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("EF010.CodeFirstMigration.Entities.Section", "Section")
                         .WithMany()
                         .HasForeignKey("SectionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EF010.CodeFirstMigration.Entities.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Participant");
 
                     b.Navigation("Section");
-
-                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("EF010.CodeFirstMigration.Entities.Instructor", b =>

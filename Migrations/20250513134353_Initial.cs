@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EF_Core_Project.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -38,11 +38,30 @@ namespace EF_Core_Project.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Participants",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    FName = table.Column<string>(type: "VARCHAR(50)", maxLength: 50, nullable: false),
+                    LName = table.Column<string>(type: "VARCHAR(50)", maxLength: 50, nullable: false),
+                    Discriminator = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
+                    Company = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    JobTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    University = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    YearOfGrad = table.Column<int>(type: "int", nullable: true),
+                    IsIntern = table.Column<bool>(type: "bit", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Participants", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Schedules",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
-                    Title = table.Column<string>(type: "VARCHAR(50)", maxLength: 50, nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SUN = table.Column<bool>(type: "bit", nullable: false),
                     MON = table.Column<bool>(type: "bit", nullable: false),
                     TUE = table.Column<bool>(type: "bit", nullable: false),
@@ -54,19 +73,6 @@ namespace EF_Core_Project.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Schedules", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Students",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    FName = table.Column<string>(type: "VARCHAR(50)", maxLength: 50, nullable: false),
-                    LName = table.Column<string>(type: "VARCHAR(50)", maxLength: 50, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Students", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -126,29 +132,30 @@ namespace EF_Core_Project.Migrations
                 columns: table => new
                 {
                     SectionId = table.Column<int>(type: "int", nullable: false),
-                    StudentId = table.Column<int>(type: "int", nullable: false)
+                    StudentId = table.Column<int>(type: "int", nullable: false),
+                    ParticipantId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Enrollments", x => new { x.SectionId, x.StudentId });
+                    table.ForeignKey(
+                        name: "FK_Enrollments_Participants_ParticipantId",
+                        column: x => x.ParticipantId,
+                        principalTable: "Participants",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Enrollments_Sections_SectionId",
                         column: x => x.SectionId,
                         principalTable: "Sections",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Enrollments_Students_StudentId",
-                        column: x => x.StudentId,
-                        principalTable: "Students",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Enrollments_StudentId",
+                name: "IX_Enrollments_ParticipantId",
                 table: "Enrollments",
-                column: "StudentId");
+                column: "ParticipantId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Instructors_OfficeId",
@@ -180,10 +187,10 @@ namespace EF_Core_Project.Migrations
                 name: "Enrollments");
 
             migrationBuilder.DropTable(
-                name: "Sections");
+                name: "Participants");
 
             migrationBuilder.DropTable(
-                name: "Students");
+                name: "Sections");
 
             migrationBuilder.DropTable(
                 name: "Courses");
