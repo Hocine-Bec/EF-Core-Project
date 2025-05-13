@@ -14,10 +14,19 @@
         public int YearOfGrad { get; set; }
         public bool IsIntern { get; set; }
 
+        public override string ToString()
+        {
+            return $"{Id} | {FName} {LName} | Graduated {YearOfGrad} from {University} {(IsIntern ? "| Internship" : "")}";
+        }
+
     }
     public class Corporate : Participant
     {
         public string Company { get; set; }
         public string JobTitle { get; set; }
+        public override string ToString()
+        {
+            return $"{Id} | {FName} {LName} | {JobTitle} at {Company}";
+        }
     }
 }
