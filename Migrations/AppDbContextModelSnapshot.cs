@@ -106,11 +106,6 @@ namespace EF_Core_Project.Migrations
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(13)
-                        .HasColumnType("nvarchar(13)");
-
                     b.Property<string>("FName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -121,11 +116,16 @@ namespace EF_Core_Project.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("VARCHAR");
 
+                    b.Property<string>("ParticipantType")
+                        .IsRequired()
+                        .HasMaxLength(4)
+                        .HasColumnType("VARCHAR");
+
                     b.HasKey("Id");
 
                     b.ToTable("Participants", (string)null);
 
-                    b.HasDiscriminator().HasValue("Participant");
+                    b.HasDiscriminator<string>("ParticipantType").HasValue("Participant");
 
                     b.UseTphMappingStrategy();
                 });
@@ -206,7 +206,7 @@ namespace EF_Core_Project.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasDiscriminator().HasValue("Corporate");
+                    b.HasDiscriminator().HasValue("CORP");
                 });
 
             modelBuilder.Entity("EF010.CodeFirstMigration.Entities.Individual", b =>
@@ -223,7 +223,7 @@ namespace EF_Core_Project.Migrations
                     b.Property<int>("YearOfGrad")
                         .HasColumnType("int");
 
-                    b.HasDiscriminator().HasValue("Individual");
+                    b.HasDiscriminator().HasValue("INDV");
                 });
 
             modelBuilder.Entity("EF010.CodeFirstMigration.Entities.Enrollment", b =>

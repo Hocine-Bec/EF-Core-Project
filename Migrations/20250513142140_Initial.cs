@@ -44,7 +44,7 @@ namespace EF_Core_Project.Migrations
                     Id = table.Column<int>(type: "int", nullable: false),
                     FName = table.Column<string>(type: "VARCHAR(50)", maxLength: 50, nullable: false),
                     LName = table.Column<string>(type: "VARCHAR(50)", maxLength: 50, nullable: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
+                    ParticipantType = table.Column<string>(type: "VARCHAR(4)", maxLength: 4, nullable: false),
                     Company = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     JobTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     University = table.Column<string>(type: "nvarchar(max)", nullable: true),

@@ -34,6 +34,21 @@ namespace EF010.CodeFirstMigration
                 context.SaveChanges();
             }
 
+            using (var context = new AppDbContext())
+            {
+                Console.WriteLine("Individual Participants:");
+                foreach (var participant in context.Participants.OfType<Individual>())
+                {
+                    Console.WriteLine(participant);
+                }
+                Console.WriteLine();
+                Console.WriteLine("Corporate Participants:");
+                foreach (var participant in context.Participants.OfType<Individual>())
+                {
+                    Console.WriteLine(participant);
+                }
+            }
+
             Console.ReadKey();
         }
     }
