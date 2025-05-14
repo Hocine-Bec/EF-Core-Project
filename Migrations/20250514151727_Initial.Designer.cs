@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EF_Core_Project.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250514150725_Initial")]
+    [Migration("20250514151727_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -202,7 +202,7 @@ namespace EF_Core_Project.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("Corporates");
+                    b.ToTable("Corporates", (string)null);
                 });
 
             modelBuilder.Entity("EF010.CodeFirstMigration.Entities.Individual", b =>
@@ -219,7 +219,7 @@ namespace EF_Core_Project.Migrations
                     b.Property<int>("YearOfGrad")
                         .HasColumnType("int");
 
-                    b.ToTable("Individuals");
+                    b.ToTable("Individuals", (string)null);
                 });
 
             modelBuilder.Entity("EF010.CodeFirstMigration.Entities.Enrollment", b =>
