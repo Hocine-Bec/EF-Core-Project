@@ -187,6 +187,27 @@ namespace EF_Core_Project.Migrations
                     b.ToTable("Sections", (string)null);
                 });
 
+            modelBuilder.Entity("EF_Core_Project.Entities.Quiz", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable((string)null);
+
+                    b.UseTpcMappingStrategy();
+                });
+
             modelBuilder.Entity("EF010.CodeFirstMigration.Entities.Corporate", b =>
                 {
                     b.HasBaseType("EF010.CodeFirstMigration.Entities.Participant");
@@ -217,6 +238,43 @@ namespace EF_Core_Project.Migrations
                         .HasColumnType("int");
 
                     b.ToTable("Individuals", (string)null);
+                });
+
+            modelBuilder.Entity("EF_Core_Project.Entities.MultipleChoiceQuiz", b =>
+                {
+                    b.HasBaseType("EF_Core_Project.Entities.Quiz");
+
+                    b.Property<string>("CorrectAnswer")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(1)");
+
+                    b.Property<string>("OptionA")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OptionB")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OptionC")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OptionD")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("MultipleChoiceQuizzes");
+                });
+
+            modelBuilder.Entity("EF_Core_Project.Entities.TrueFalseQuiz", b =>
+                {
+                    b.HasBaseType("EF_Core_Project.Entities.Quiz");
+
+                    b.Property<bool>("CorrectAnswer")
+                        .HasColumnType("bit");
+
+                    b.ToTable("TrueFalseQuizzes");
                 });
 
             modelBuilder.Entity("EF010.CodeFirstMigration.Entities.Enrollment", b =>
@@ -294,6 +352,17 @@ namespace EF_Core_Project.Migrations
 
                     b.Navigation("TimeSlot")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("EF_Core_Project.Entities.Quiz", b =>
+                {
+                    b.HasOne("EF010.CodeFirstMigration.Entities.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
                 });
 
             modelBuilder.Entity("EF010.CodeFirstMigration.Entities.Corporate", b =>

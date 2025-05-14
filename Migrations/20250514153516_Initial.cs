@@ -70,6 +70,50 @@ namespace EF_Core_Project.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MultipleChoiceQuizzes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CourseId = table.Column<int>(type: "int", nullable: false),
+                    OptionA = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OptionB = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OptionC = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OptionD = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CorrectAnswer = table.Column<string>(type: "nvarchar(1)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MultipleChoiceQuizzes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MultipleChoiceQuizzes_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TrueFalseQuizzes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CourseId = table.Column<int>(type: "int", nullable: false),
+                    CorrectAnswer = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TrueFalseQuizzes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TrueFalseQuizzes_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Instructors",
                 columns: table => new
                 {
@@ -198,6 +242,11 @@ namespace EF_Core_Project.Migrations
                 filter: "[OfficeId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_MultipleChoiceQuizzes_CourseId",
+                table: "MultipleChoiceQuizzes",
+                column: "CourseId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Sections_CourseId",
                 table: "Sections",
                 column: "CourseId");
@@ -211,6 +260,11 @@ namespace EF_Core_Project.Migrations
                 name: "IX_Sections_ScheduleId",
                 table: "Sections",
                 column: "ScheduleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TrueFalseQuizzes_CourseId",
+                table: "TrueFalseQuizzes",
+                column: "CourseId");
         }
 
         /// <inheritdoc />
@@ -224,6 +278,12 @@ namespace EF_Core_Project.Migrations
 
             migrationBuilder.DropTable(
                 name: "Individuals");
+
+            migrationBuilder.DropTable(
+                name: "MultipleChoiceQuizzes");
+
+            migrationBuilder.DropTable(
+                name: "TrueFalseQuizzes");
 
             migrationBuilder.DropTable(
                 name: "Sections");

@@ -1,4 +1,5 @@
-﻿using EF010.CodeFirstMigration.Entities;
+﻿using EF_Core_Project.Entities;
+using EF010.CodeFirstMigration.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -13,6 +14,8 @@ namespace EF010.CodeFirstMigration.Data
         public DbSet<Schedule> Schedules { get; set; }
         public DbSet<Participant> Participants { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
+        public DbSet<MultipleChoiceQuiz> MultipleChoiceQuizzes { get; set; }
+        public DbSet<TrueFalseQuiz>  TrueFalseQuizzes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
