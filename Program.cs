@@ -26,11 +26,20 @@ namespace EF010.CodeFirstMigration
                 Company = "Metigator",
                 JobTitle = "Software Engineer"
             };
+            var participant3 = new Corporate()
+            {
+                Id = 3,
+                FName = "Reem",
+                LName = "Hadil",
+                Company = "Metigator",
+                JobTitle = "DevOps"
+            };
 
             using (var context = new AppDbContext())
             {
                 context.Participants.Add(participant1);
                 context.Participants.Add(participant2);
+                context.Participants.Add(participant3);
                 context.SaveChanges();
             }
 
@@ -43,7 +52,7 @@ namespace EF010.CodeFirstMigration
                 }
                 Console.WriteLine();
                 Console.WriteLine("Corporate Participants:");
-                foreach (var participant in context.Participants.OfType<Individual>())
+                foreach (var participant in context.Participants.OfType<Corporate>())
                 {
                     Console.WriteLine(participant);
                 }

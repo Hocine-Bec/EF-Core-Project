@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EF_Core_Project.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250513142140_Initial")]
+    [Migration("20250514150725_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -119,18 +119,11 @@ namespace EF_Core_Project.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("VARCHAR");
 
-                    b.Property<string>("ParticipantType")
-                        .IsRequired()
-                        .HasMaxLength(4)
-                        .HasColumnType("VARCHAR");
-
                     b.HasKey("Id");
 
                     b.ToTable("Participants", (string)null);
 
-                    b.HasDiscriminator<string>("ParticipantType").HasValue("Participant");
-
-                    b.UseTphMappingStrategy();
+                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("EF010.CodeFirstMigration.Entities.Schedule", b =>
@@ -209,7 +202,7 @@ namespace EF_Core_Project.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasDiscriminator().HasValue("CORP");
+                    b.ToTable("Corporates");
                 });
 
             modelBuilder.Entity("EF010.CodeFirstMigration.Entities.Individual", b =>
@@ -226,7 +219,7 @@ namespace EF_Core_Project.Migrations
                     b.Property<int>("YearOfGrad")
                         .HasColumnType("int");
 
-                    b.HasDiscriminator().HasValue("INDV");
+                    b.ToTable("Individuals");
                 });
 
             modelBuilder.Entity("EF010.CodeFirstMigration.Entities.Enrollment", b =>
@@ -303,6 +296,24 @@ namespace EF_Core_Project.Migrations
                     b.Navigation("Schedule");
 
                     b.Navigation("TimeSlot")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("EF010.CodeFirstMigration.Entities.Corporate", b =>
+                {
+                    b.HasOne("EF010.CodeFirstMigration.Entities.Participant", null)
+                        .WithOne()
+                        .HasForeignKey("EF010.CodeFirstMigration.Entities.Corporate", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("EF010.CodeFirstMigration.Entities.Individual", b =>
+                {
+                    b.HasOne("EF010.CodeFirstMigration.Entities.Participant", null)
+                        .WithOne()
+                        .HasForeignKey("EF010.CodeFirstMigration.Entities.Individual", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 

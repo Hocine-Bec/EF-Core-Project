@@ -19,14 +19,7 @@ namespace EF010.CodeFirstMigration.Data.Config
             .HasColumnType("VARCHAR")
             .HasMaxLength(50).IsRequired();
 
-            builder.HasDiscriminator<string>("ParticipantType")
-                .HasValue<Individual>("INDV")
-                .HasValue<Corporate>("CORP");
-
-            builder.Property("ParticipantType")
-                .HasColumnType("VARCHAR")
-                .HasMaxLength(4);
-
+            builder.UseTptMappingStrategy();
 
             builder.ToTable("Participants");
         }
