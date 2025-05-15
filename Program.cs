@@ -7,55 +7,16 @@ namespace EF010.CodeFirstMigration
 {
     class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            var participant1 = new Individual()
-            {
-                Id = 1,
-                FName = "Ahmed",
-                LName = "Ali",
-                University = "JUST",
-                YearOfGrad = 2024,
-                IsIntern = false
-            };
-            var participant2 = new Corporate()
-            {
-                Id = 2,
-                FName = "Ahmed",
-                LName = "Ali",
-                Company = "Metigator",
-                JobTitle = "Software Engineer"
-            };
-            var participant3 = new Corporate()
-            {
-                Id = 3,
-                FName = "Reem",
-                LName = "Hadil",
-                Company = "Metigator",
-                JobTitle = "DevOps"
-            };
-
             using (var context = new AppDbContext())
             {
-                context.Participants.Add(participant1);
-                context.Participants.Add(participant2);
-                context.Participants.Add(participant3);
-                context.SaveChanges();
-            }
+                await context.Database.EnsureCreatedAsync();
+                var query = context.Database.GenerateCreateScript();
 
-            using (var context = new AppDbContext())
-            {
-                Console.WriteLine("Individual Participants:");
-                foreach (var participant in context.Participants.OfType<Individual>())
-                {
-                    Console.WriteLine(participant);
-                }
-                Console.WriteLine();
-                Console.WriteLine("Corporate Participants:");
-                foreach (var participant in context.Participants.OfType<Corporate>())
-                {
-                    Console.WriteLine(participant);
-                }
+                await Task.Delay(10000);
+
+                await context.Database.EnsureDeletedAsync();
             }
 
             Console.ReadKey();
