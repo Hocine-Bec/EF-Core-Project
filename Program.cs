@@ -1,53 +1,22 @@
-﻿using EF_Core_Project;
-using EF010.CodeFirstMigration.Data;
-using EF010.CodeFirstMigration.Entities;
+﻿using EF_Core_Project.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
-namespace EF010.CodeFirstMigration
+namespace EF_Core_Project
 {
     class Program
     {
-        public static async Task Main(string[] args)
+        public static void Main(string[] args)
         {
             using (var context = new AppDbContext())
             {
-                await context.Database.EnsureCreatedAsync();
+                var courses = context.Courses;
+                Console.WriteLine(courses.ToQueryString());
 
-                if (!await context.Set<Individual>().AnyAsync())
+                Console.WriteLine("\n");
+                foreach (var course in courses)
                 {
-                    context.Set<Individual>().AddRange(SeedData.LoadIndividuals());
+                    Console.WriteLine($"Course name: {course.CourseName}, {course.HoursToComplete} hrs, {course.Price.ToString("C")}");
                 }
-                if (!await context.Set<Corporate>().AnyAsync())
-                {
-                    context.Set<Corporate>().AddRange(SeedData.LoadCorporates());
-                }
-                if (!await context.Set<Course>().AnyAsync())
-                {
-                    context.Set<Course>().AddRange(SeedData.LoadCourses());
-                }
-                if (!await context.Set<Office>().AnyAsync())
-                {
-                    context.Set<Office>().AddRange(SeedData.LoadOffices());
-                }
-                if (!await context.Set<Schedule>().AnyAsync())
-                {
-                    context.Set<Schedule>().AddRange(SeedData.LoadSchedules());
-                }
-                if (!await context.Set<Instructor>().AnyAsync())
-                {
-                    context.Set<Instructor>().AddRange(SeedData.LoadInstructors());
-                }
-                if (!await context.Set<Section>().AnyAsync())
-                {
-                    context.Set<Section>().AddRange(SeedData.LoadSections());
-                }
-                if (!await context.Set<Enrollment>().AnyAsync())
-                {
-                    context.Set<Enrollment>().AddRange(SeedData.LoadEnrollments());
-                }
-
-                await context.SaveChangesAsync();
             }
 
             Console.ReadKey();

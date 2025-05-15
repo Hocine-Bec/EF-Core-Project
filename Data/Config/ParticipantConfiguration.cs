@@ -1,10 +1,10 @@
-﻿using EF010.CodeFirstMigration.Entities;
+﻿using EF_Core_Project.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace EF010.CodeFirstMigration.Data.Config
+namespace EF_Core_Project.Data.Config
 {
-    public class ParticipantConfiguration : IEntityTypeConfiguration<Participant>
+    public class ParticpantConfiguration : IEntityTypeConfiguration<Participant>
     {
         public void Configure(EntityTypeBuilder<Participant> builder)
         {
@@ -19,9 +19,7 @@ namespace EF010.CodeFirstMigration.Data.Config
             .HasColumnType("VARCHAR")
             .HasMaxLength(50).IsRequired();
 
-            builder.UseTptMappingStrategy();
-
-            builder.ToTable("Participants");
+            builder.ToTable("Particpants");
         }
     }
 }

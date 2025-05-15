@@ -1,11 +1,10 @@
 ﻿using EF_Core_Project.Enums;
 
-namespace EF010.CodeFirstMigration.Entities
+namespace EF_Core_Project.Entities
 {
-    public class Schedule
+    public class Schedule : Entity
     {
-        public int Id { get; set; }
-        public ScheduleEnum? Title { get; set; }
+        public ScheduleType ScheduleType { get; set; }
         public bool SUN { get; set; }
         public bool MON { get; set; }
         public bool TUE { get; set; }

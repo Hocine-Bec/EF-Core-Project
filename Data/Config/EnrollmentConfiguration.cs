@@ -1,9 +1,9 @@
 ﻿using EF_Core_Project;
-using EF010.CodeFirstMigration.Entities;
+using EF_Core_Project.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace EF010.CodeFirstMigration.Data.Config
+namespace EF_Core_Project.Data.Config
 {
     public class EnrollmentConfiguration : IEntityTypeConfiguration<Enrollment>
     {

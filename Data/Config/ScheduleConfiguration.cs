@@ -1,10 +1,10 @@
 ﻿using EF_Core_Project;
 using EF_Core_Project.Enums;
-using EF010.CodeFirstMigration.Entities;
+using EF_Core_Project.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace EF010.CodeFirstMigration.Data.Config
+namespace EF_Core_Project.Data.Config
 {
     public class ScheduleConfiguration : IEntityTypeConfiguration<Schedule>
     {
@@ -13,11 +13,10 @@ namespace EF010.CodeFirstMigration.Data.Config
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).ValueGeneratedNever();
 
-            builder.Property(x => x.Title)
-                .HasConversion
-                (
-                    v => v.ToString(),
-                    v => (ScheduleEnum)Enum.Parse(typeof(ScheduleEnum), v)
+            builder.Property(x => x.ScheduleType)
+                .HasConversion(
+                     x => x.ToString(),
+                     x => (ScheduleType)Enum.Parse(typeof(ScheduleType), x)
                 );
 
             builder.ToTable("Schedules");

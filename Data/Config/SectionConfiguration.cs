@@ -1,9 +1,9 @@
 ﻿using EF_Core_Project;
-using EF010.CodeFirstMigration.Entities;
+using EF_Core_Project.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace EF010.CodeFirstMigration.Data.Config
+namespace EF_Core_Project.Data.Config
 {
     public class SectionConfiguration : IEntityTypeConfiguration<Section>
     {
@@ -11,6 +11,8 @@ namespace EF010.CodeFirstMigration.Data.Config
         {
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).ValueGeneratedNever();
+
+            // builder.Property(x => x.CourseName).HasMaxLength(255); // nvarchar(255)
 
             builder.Property(x => x.SectionName)
                 .HasColumnType("VARCHAR")
@@ -28,18 +30,24 @@ namespace EF010.CodeFirstMigration.Data.Config
 
             builder.OwnsOne(x => x.TimeSlot, ts =>
             {
-                ts.Property(x => x.StartTime).HasColumnType("time").HasColumnName("StartTime");
-                ts.Property(x => x.EndTime).HasColumnType("time").HasColumnName("EndTime");
+                ts.Property(p => p.StartTime).HasColumnType("time(0)").HasColumnName("StartTime").IsRequired();
+                ts.Property(p => p.EndTime).HasColumnType("time(0)").HasColumnName("EndTime").IsRequired();
             });
 
-            builder.HasOne(x => x.Schedule)
+            builder.OwnsOne(x => x.DateRange, ts =>
+            {
+                ts.Property(p => p.StartDate).HasColumnType("date").HasColumnName("StartDate").IsRequired();
+                ts.Property(p => p.EndDate).HasColumnType("date").HasColumnName("EndDate").IsRequired();
+            });
+
+            builder.HasOne(c => c.Schedule)
                 .WithMany(x => x.Sections)
                 .HasForeignKey(x => x.ScheduleId)
                 .IsRequired();
 
             builder.HasMany(c => c.Participants)
-                .WithMany(x => x.Sections)
-                .UsingEntity<Enrollment>();
+          .WithMany(x => x.Sections)
+          .UsingEntity<Enrollment>();
 
             builder.ToTable("Sections");
         }

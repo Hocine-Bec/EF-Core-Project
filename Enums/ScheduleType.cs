@@ -1,6 +1,6 @@
 ﻿namespace EF_Core_Project.Enums
 {
-    public enum ScheduleEnum
+    public enum ScheduleType
     {
         Daily,
         DayAfterDay,

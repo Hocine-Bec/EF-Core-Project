@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EF010.CodeFirstMigration.Entities
+﻿namespace EF_Core_Project.Entities
 {
     public class Enrollment
     {

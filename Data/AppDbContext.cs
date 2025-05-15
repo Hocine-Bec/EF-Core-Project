@@ -1,19 +1,26 @@
-﻿using EF010.CodeFirstMigration.Entities;
+﻿using EF_Core_Project.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace EF010.CodeFirstMigration.Data
+namespace EF_Core_Project.Data
 {
     public class AppDbContext : DbContext
     {
+        public DbSet<Office> Offices { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<Instructor> Instructors { get; set; }
-        public DbSet<Office> Offices { get; set; }
         public DbSet<Section> Sections { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
-        public DbSet<Participant> Participants { get; set; }
+        public DbSet<Participant> Particpants { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
 
+        protected override void ConfigureConventions(ModelConfigurationBuilder builder)
+        {
+            base.ConfigureConventions(builder);
+            builder.Properties<DateOnly>()
+                .HaveConversion<Config.Converter>()
+                .HaveColumnType("date");
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
@@ -28,9 +35,6 @@ namespace EF010.CodeFirstMigration.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            // modelBuilder.ApplyConfiguration(new CourseConfiguration()); // not best practice
-
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
         }
     }

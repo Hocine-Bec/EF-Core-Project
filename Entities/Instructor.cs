@@ -1,11 +1,11 @@
-﻿namespace EF010.CodeFirstMigration.Entities
+﻿namespace EF_Core_Project.Entities
 {
-    public class Instructor
+    public class Instructor : Entity
     {
-        public int Id { get; set; }
-        public string? Name { get; set; }
+        public string? FName { get; set; }
+        public string? LName { get; set; }
 
-        public int? OfficeId { get; set; }
+        public int OfficeId { get; set; }
         public Office? Office { get; set; }
 
         public ICollection<Section> Sections { get; set; } = new List<Section>();

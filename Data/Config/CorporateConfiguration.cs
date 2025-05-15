@@ -1,14 +1,14 @@
-﻿using EF010.CodeFirstMigration.Entities;
+﻿using EF_Core_Project.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EF_Core_Project.Data.Config
 {
-    public class CorporateConfiguration :IEntityTypeConfiguration<Corporate>
+    internal class CoporateConfiguration : IEntityTypeConfiguration<Corporate>
     {
         public void Configure(EntityTypeBuilder<Corporate> builder)
         {
-            builder.ToTable("Corporates");
+            builder.ToTable("Coporates");
         }
     }
 }

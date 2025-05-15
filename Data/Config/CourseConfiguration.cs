@@ -1,9 +1,9 @@
 ﻿using EF_Core_Project;
-using EF010.CodeFirstMigration.Entities;
+using EF_Core_Project.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace EF010.CodeFirstMigration.Data.Config
+namespace EF_Core_Project.Data.Config
 {
     public class CourseConfiguration : IEntityTypeConfiguration<Course>
     {
@@ -11,8 +11,6 @@ namespace EF010.CodeFirstMigration.Data.Config
         {
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).ValueGeneratedNever();
-
-            // builder.Property(x => x.CourseName).HasMaxLength(255); // nvarchar(255)
 
             builder.Property(x => x.CourseName)
                 .HasColumnType("VARCHAR")

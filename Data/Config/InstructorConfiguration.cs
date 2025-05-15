@@ -1,9 +1,9 @@
 ﻿using EF_Core_Project;
-using EF010.CodeFirstMigration.Entities;
+using EF_Core_Project.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace EF010.CodeFirstMigration.Data.Config
+namespace EF_Core_Project.Data.Config
 {
     public class InstructorConfiguration : IEntityTypeConfiguration<Instructor>
     {
@@ -12,9 +12,13 @@ namespace EF010.CodeFirstMigration.Data.Config
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).ValueGeneratedNever();
 
-            builder.Property(x => x.Name)
+            builder.Property(x => x.FName)
                 .HasColumnType("VARCHAR")
                 .HasMaxLength(50).IsRequired();
+
+            builder.Property(x => x.LName)
+            .HasColumnType("VARCHAR")
+            .HasMaxLength(50).IsRequired();
 
             builder.HasOne(x => x.Office)
                     .WithOne(x => x.Instructor)

@@ -1,8 +1,7 @@
-﻿namespace EF010.CodeFirstMigration.Entities
+﻿namespace EF_Core_Project.Entities
 {
-    public class Office
+    public class Office : Entity
     {
-        public int Id { get; set; }
         public string? OfficeName { get; set; }
         public string? OfficeLocation { get; set; }
 
