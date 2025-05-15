@@ -9,6 +9,8 @@ namespace EF_Core_Project.Data.Config
         public void Configure(EntityTypeBuilder<Corporate> builder)
         {
             builder.ToTable("Corporates");
+
+            builder.HasData(SeedData.LoadCorporates());
         }
     }
 }

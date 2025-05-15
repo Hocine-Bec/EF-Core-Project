@@ -1,4 +1,5 @@
-﻿using EF_Core_Project.Enums;
+﻿using EF_Core_Project;
+using EF_Core_Project.Enums;
 using EF010.CodeFirstMigration.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -20,6 +21,7 @@ namespace EF010.CodeFirstMigration.Data.Config
                 );
 
             builder.ToTable("Schedules");
+            builder.HasData(SeedData.LoadSchedules());
         }
     }
 }

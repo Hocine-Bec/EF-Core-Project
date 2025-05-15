@@ -1,4 +1,5 @@
-﻿using EF010.CodeFirstMigration.Entities;
+﻿using EF_Core_Project;
+using EF010.CodeFirstMigration.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -21,6 +22,7 @@ namespace EF010.CodeFirstMigration.Data.Config
                     .IsRequired(false);
 
             builder.ToTable("Instructors");
+            builder.HasData(SeedData.LoadInstructors());
         }
     }
 }
