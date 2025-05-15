@@ -39,38 +39,6 @@ namespace EF_Core_Project.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Courses", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CourseName = "Mathematics",
-                            Price = 1000.00m
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CourseName = "Physics",
-                            Price = 2000.00m
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CourseName = "Chemistry",
-                            Price = 1500.00m
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CourseName = "Biology",
-                            Price = 1200.00m
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CourseName = "CS-50",
-                            Price = 3000.00m
-                        });
                 });
 
             modelBuilder.Entity("EF010.CodeFirstMigration.Entities.Enrollment", b =>
@@ -86,58 +54,6 @@ namespace EF_Core_Project.Migrations
                     b.HasIndex("ParticipantId");
 
                     b.ToTable("Enrollments", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            SectionId = 6,
-                            ParticipantId = 1
-                        },
-                        new
-                        {
-                            SectionId = 6,
-                            ParticipantId = 2
-                        },
-                        new
-                        {
-                            SectionId = 7,
-                            ParticipantId = 3
-                        },
-                        new
-                        {
-                            SectionId = 7,
-                            ParticipantId = 4
-                        },
-                        new
-                        {
-                            SectionId = 8,
-                            ParticipantId = 5
-                        },
-                        new
-                        {
-                            SectionId = 8,
-                            ParticipantId = 6
-                        },
-                        new
-                        {
-                            SectionId = 9,
-                            ParticipantId = 7
-                        },
-                        new
-                        {
-                            SectionId = 9,
-                            ParticipantId = 8
-                        },
-                        new
-                        {
-                            SectionId = 10,
-                            ParticipantId = 9
-                        },
-                        new
-                        {
-                            SectionId = 10,
-                            ParticipantId = 10
-                        });
                 });
 
             modelBuilder.Entity("EF010.CodeFirstMigration.Entities.Instructor", b =>
@@ -160,38 +76,6 @@ namespace EF_Core_Project.Migrations
                         .HasFilter("[OfficeId] IS NOT NULL");
 
                     b.ToTable("Instructors", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Ahmed Abdullah",
-                            OfficeId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Yasmeen Mohammed",
-                            OfficeId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Khalid Hassan",
-                            OfficeId = 3
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Nadia Ali",
-                            OfficeId = 4
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Omar Ibrahim",
-                            OfficeId = 5
-                        });
                 });
 
             modelBuilder.Entity("EF010.CodeFirstMigration.Entities.Office", b =>
@@ -212,38 +96,6 @@ namespace EF_Core_Project.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Offices", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            OfficeLocation = "Building A",
-                            OfficeName = "Off_05"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            OfficeLocation = "Building B",
-                            OfficeName = "Off_12"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            OfficeLocation = "Administration",
-                            OfficeName = "Off_32"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            OfficeLocation = "IT Department",
-                            OfficeName = "Off_44"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            OfficeLocation = "IT Department",
-                            OfficeName = "Off_43"
-                        });
                 });
 
             modelBuilder.Entity("EF010.CodeFirstMigration.Entities.Participant", b =>
@@ -300,68 +152,6 @@ namespace EF_Core_Project.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Schedules", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            FRI = false,
-                            MON = true,
-                            SAT = false,
-                            SUN = true,
-                            THU = true,
-                            TUE = true,
-                            Title = "Daily",
-                            WED = true
-                        },
-                        new
-                        {
-                            Id = 2,
-                            FRI = false,
-                            MON = false,
-                            SAT = false,
-                            SUN = true,
-                            THU = true,
-                            TUE = true,
-                            Title = "DayAfterDay",
-                            WED = false
-                        },
-                        new
-                        {
-                            Id = 3,
-                            FRI = false,
-                            MON = true,
-                            SAT = false,
-                            SUN = false,
-                            THU = false,
-                            TUE = false,
-                            Title = "TwiceAWeek",
-                            WED = true
-                        },
-                        new
-                        {
-                            Id = 4,
-                            FRI = true,
-                            MON = false,
-                            SAT = true,
-                            SUN = false,
-                            THU = false,
-                            TUE = false,
-                            Title = "Weekend",
-                            WED = false
-                        },
-                        new
-                        {
-                            Id = 5,
-                            FRI = true,
-                            MON = true,
-                            SAT = true,
-                            SUN = true,
-                            THU = true,
-                            TUE = true,
-                            Title = "Compact",
-                            WED = true
-                        });
                 });
 
             modelBuilder.Entity("EF010.CodeFirstMigration.Entities.Section", b =>
@@ -407,40 +197,6 @@ namespace EF_Core_Project.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.ToTable("Corporates", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 2,
-                            FName = "Noor",
-                            LName = "Saleh",
-                            Company = "ABC",
-                            JobTitle = "Developer"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            FName = "Huda",
-                            LName = "Ahmed",
-                            Company = "ABC",
-                            JobTitle = "QA"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            FName = "Yousef",
-                            LName = "Farid",
-                            Company = "EFG",
-                            JobTitle = "Developer"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            FName = "Layla",
-                            LName = "Mustafa",
-                            Company = "EFG",
-                            JobTitle = "QA"
-                        });
                 });
 
             modelBuilder.Entity("EF010.CodeFirstMigration.Entities.Individual", b =>
@@ -458,62 +214,6 @@ namespace EF_Core_Project.Migrations
                         .HasColumnType("int");
 
                     b.ToTable("Individuals", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            FName = "Fatima",
-                            LName = "Ali",
-                            IsIntern = false,
-                            University = "XYZ",
-                            YearOfGrad = 2024
-                        },
-                        new
-                        {
-                            Id = 3,
-                            FName = "Omar",
-                            LName = "Youssef",
-                            IsIntern = true,
-                            University = "POQ",
-                            YearOfGrad = 2023
-                        },
-                        new
-                        {
-                            Id = 5,
-                            FName = "Amira",
-                            LName = "Tariq",
-                            IsIntern = false,
-                            University = "POQ",
-                            YearOfGrad = 2025
-                        },
-                        new
-                        {
-                            Id = 6,
-                            FName = "Zainab",
-                            LName = "Ismail",
-                            IsIntern = true,
-                            University = "POQ",
-                            YearOfGrad = 2023
-                        },
-                        new
-                        {
-                            Id = 9,
-                            FName = "Mohammed",
-                            LName = "Adel",
-                            IsIntern = false,
-                            University = "XYZ",
-                            YearOfGrad = 2024
-                        },
-                        new
-                        {
-                            Id = 10,
-                            FName = "Samira",
-                            LName = "Nabil",
-                            IsIntern = false,
-                            University = "XYZ",
-                            YearOfGrad = 2024
-                        });
                 });
 
             modelBuilder.Entity("EF010.CodeFirstMigration.Entities.Enrollment", b =>
