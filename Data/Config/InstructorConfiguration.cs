@@ -22,7 +22,6 @@ namespace EF010.CodeFirstMigration.Data.Config
                     .IsRequired(false);
 
             builder.ToTable("Instructors");
-            builder.HasData(SeedData.LoadInstructors());
         }
     }
 }

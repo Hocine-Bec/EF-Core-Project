@@ -12,7 +12,6 @@ namespace EF010.CodeFirstMigration.Data.Config
             builder.HasKey(x => new { x.SectionId, x.ParticipantId });
 
             builder.ToTable("Enrollments");
-            builder.HasData(SeedData.LoadEnrollments());
         }
     }
 }

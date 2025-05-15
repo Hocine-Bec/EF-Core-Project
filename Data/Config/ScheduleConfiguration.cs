@@ -21,7 +21,6 @@ namespace EF010.CodeFirstMigration.Data.Config
                 );
 
             builder.ToTable("Schedules");
-            builder.HasData(SeedData.LoadSchedules());
         }
     }
 }

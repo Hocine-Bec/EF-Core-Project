@@ -22,7 +22,6 @@ namespace EF010.CodeFirstMigration.Data.Config
 
 
             builder.ToTable("Offices");
-            builder.HasData(SeedData.LoadOffices());
         }
     }
 }

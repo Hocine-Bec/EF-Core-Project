@@ -42,7 +42,6 @@ namespace EF010.CodeFirstMigration.Data.Config
                 .UsingEntity<Enrollment>();
 
             builder.ToTable("Sections");
-            //builder.HasData(SeedData.LoadSections());
         }
     }
 }

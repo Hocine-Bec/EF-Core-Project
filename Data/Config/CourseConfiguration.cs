@@ -22,7 +22,6 @@ namespace EF010.CodeFirstMigration.Data.Config
                 .HasPrecision(15, 2);
 
             builder.ToTable("Courses");
-            builder.HasData(SeedData.LoadCourses());
         }
     }
 }

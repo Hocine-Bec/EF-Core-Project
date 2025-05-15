@@ -9,7 +9,6 @@ namespace EF_Core_Project.Data.Config
         public void Configure(EntityTypeBuilder<Individual> builder)
         {
             builder.ToTable("Individuals");
-            builder.HasData(SeedData.LoadIndividuals());
         }
     }
 }
