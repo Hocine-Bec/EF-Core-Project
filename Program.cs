@@ -1,5 +1,7 @@
 ﻿using EF_Core_Project.Data;
+using EF_Core_Project.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace EF_Core_Project
 {
@@ -7,48 +9,61 @@ namespace EF_Core_Project
     {
         public static void Main(string[] args)
         {
+            //using (var context = new AppDbContext())
+            //{
+            //    var courseId = 1;
+
+            //    var result = context.Sections
+            //        .Where(x => x.CourseId == courseId)
+            //        .Select(x => new
+            //        {
+            //            Id = x.Id,
+            //            Section = x.SectionName
+            //        });
+
+            //    //DECLARE @__courseId_0 int = 1;
+            //    //SELECT[s].[Id], [s].[SectionName] AS[Section]
+            //    //FROM[Sections] AS[s]
+            //    //WHERE[s].[CourseId] = @__courseId_0
+
+            //    Console.WriteLine(result.ToQueryString());
+
+            //    foreach (var item in result)
+            //    {
+            //        Console.WriteLine($"{item.Id} {item.Section}");
+            //    }
+            //}
+
             using (var context = new AppDbContext())
             {
-                //var courses = context.Courses;
+                var courseId = 1;
 
-                //Console.WriteLine(courses.ToQueryString());
+                var result = context.Sections
+                    .Where(x => x.CourseId == courseId)
+                    .Select(x => new
+                    {
+                        Id = x.Id,
+                        Section = x.SectionName.Substring(4),
+                        TotalDays = CalculateTotalDays(x.DateRange.StartDate, x.DateRange.EndDate)
+                    });
 
-                //foreach (var course in courses)
-                //    Console.WriteLine($"course name: {course.CourseName}, {course.HoursToComplete} hrs., {course.Price.ToString("C")}");
+                //  SELECT [s].[Id], [s].[SectionName], [s].[StartDate], [s].[EndDate]
+                //  FROM [Sections] AS [s]
+                //  WHERE [s].[CourseId] = @__courseId_0
+                Console.WriteLine(result.ToQueryString());
 
-                //var course = context.Courses.Single(x => x.Id == 1);
-
-                //Console.WriteLine($"course name: {course.CourseName}, {course.HoursToComplete} hrs., {course.Price.ToString("C")}");
-
-                //var course = context.Courses.Single(x => x.HoursToComplete == 25);
-
-                //Console.WriteLine($"{course.CourseName}, {course.Price.ToString("C")}");
-
-                // var course = context.Courses.First(x => x.HoursToComplete == 25);
-
-                // Console.WriteLine($"{course.CourseName}, {course.Price.ToString("C")}");
-
-                // var course = context.Courses.Single(x => x.HoursToComplete == 999);
-
-                // Console.WriteLine($"{course.CourseName}, {course.Price.ToString("C")}");
-
-                //var course = context.Courses.FirstOrDefault(x => x.HoursToComplete == 999);
-
-                //Console.WriteLine($"{course?.CourseName}, {course?.Price.ToString("C")}");
-
-                // var course = context.Courses.SingleOrDefault(x => x.HoursToComplete == 999);
-
-                // Console.WriteLine($"{course?.CourseName}, {course?.Price.ToString("C")}");
-
-                var courses = context.Courses.Where(x => x.Price > 3000);
-
-                Console.WriteLine(courses.ToQueryString());
-
-                foreach (var course in courses)
-                    Console.WriteLine($"course name: {course.CourseName}, {course.HoursToComplete} hrs., {course.Price.ToString("C")}");
+                foreach (var item in result)
+                {
+                    Console.WriteLine($"{item.Id} {item.Section} ({item.TotalDays})");
+                }
             }
 
             Console.ReadKey();
+        }
+
+        private static int CalculateTotalDays(DateOnly startDate, DateOnly endDate)
+        {
+            return endDate.DayNumber - startDate.DayNumber; // 0001-01-01
         }
     }
 }

@@ -21,6 +21,7 @@ namespace EF_Core_Project.Data
                 .HaveConversion<Config.Converter>()
                 .HaveColumnType("date");
         }
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
