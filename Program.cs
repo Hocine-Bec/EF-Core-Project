@@ -11,59 +11,43 @@ namespace EF_Core_Project
         {
             //using (var context = new AppDbContext())
             //{
-            //    var courseId = 1;
+            //    var section = context.Sections.FirstOrDefault(x => x.Id == 1);
 
-            //    var result = context.Sections
-            //        .Where(x => x.CourseId == courseId)
-            //        .Select(x => new
-            //        {
-            //            Id = x.Id,
-            //            Section = x.SectionName
-            //        });
+            //    Console.WriteLine("Before changing tracked object");
+            //    Console.WriteLine("-------------------------------");
+            //    Console.WriteLine(section.SectionName); //01A51C05
 
-            //    //DECLARE @__courseId_0 int = 1;
-            //    //SELECT[s].[Id], [s].[SectionName] AS[Section]
-            //    //FROM[Sections] AS[s]
-            //    //WHERE[s].[CourseId] = @__courseId_0
+            //    section.SectionName = "BlaBla";
+            //    context.SaveChanges();
 
-            //    Console.WriteLine(result.ToQueryString());
+            //    Console.WriteLine("\nAfter changing tracked object");
+            //    Console.WriteLine("-------------------------------");
 
-            //    foreach (var item in result)
-            //    {
-            //        Console.WriteLine($"{item.Id} {item.Section}");
-            //    }
+            //    section = context.Sections.FirstOrDefault(x => x.Id == 1);
+            //    Console.WriteLine(section.SectionName);
             //}
 
             using (var context = new AppDbContext())
             {
-                var courseId = 1;
+                var section = context.Sections
+                    .AsNoTracking()
+                    .FirstOrDefault(x => x.Id == 1);
 
-                var result = context.Sections
-                    .Where(x => x.CourseId == courseId)
-                    .Select(x => new
-                    {
-                        Id = x.Id,
-                        Section = x.SectionName.Substring(4),
-                        TotalDays = CalculateTotalDays(x.DateRange.StartDate, x.DateRange.EndDate)
-                    });
+                Console.WriteLine("Before changing tracked object");
+                Console.WriteLine("-------------------------------");
+                Console.WriteLine(section.SectionName); //BlaBla
 
-                //  SELECT [s].[Id], [s].[SectionName], [s].[StartDate], [s].[EndDate]
-                //  FROM [Sections] AS [s]
-                //  WHERE [s].[CourseId] = @__courseId_0
-                Console.WriteLine(result.ToQueryString());
+                section.SectionName = "01A51C05";
+                context.SaveChanges();
 
-                foreach (var item in result)
-                {
-                    Console.WriteLine($"{item.Id} {item.Section} ({item.TotalDays})");
-                }
+                Console.WriteLine("\nAfter changing tracked object");
+                Console.WriteLine("-------------------------------");
+
+                section = context.Sections.FirstOrDefault(x => x.Id == 1);
+                Console.WriteLine(section.SectionName);
             }
 
             Console.ReadKey();
-        }
-
-        private static int CalculateTotalDays(DateOnly startDate, DateOnly endDate)
-        {
-            return endDate.DayNumber - startDate.DayNumber; // 0001-01-01
         }
     }
 }
