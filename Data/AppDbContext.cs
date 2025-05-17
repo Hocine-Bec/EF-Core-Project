@@ -30,7 +30,9 @@ namespace EF_Core_Project.Data
 
             var connectionString = config.GetSection("constr").Value;
 
-            optionsBuilder.UseSqlServer(connectionString);
+            optionsBuilder
+                .UseLazyLoadingProxies()
+                .UseSqlServer(connectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

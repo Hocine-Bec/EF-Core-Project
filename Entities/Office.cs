@@ -5,6 +5,6 @@
         public string? OfficeName { get; set; }
         public string? OfficeLocation { get; set; }
 
-        public Instructor? Instructor { get; set; }
+        public virtual Instructor? Instructor { get; set; }
     }
 }

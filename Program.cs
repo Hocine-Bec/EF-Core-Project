@@ -14,14 +14,11 @@ namespace EF_Core_Project
                 var section = context.Sections
                     .FirstOrDefault(x => x.Id == 1);
 
-                var query = context.Entry(section).Collection(x => x.Participants).Query();
-                Console.WriteLine(query.ToQueryString());
+                Console.WriteLine($"\nSection Name: {section.SectionName}\n");
 
-                Console.WriteLine($"\nSection Name: {section.SectionName}");
-
-                foreach (var part in query)
+                foreach (var part in section.Participants)
                 {
-                    Console.WriteLine($"\n[{part.Id}] {part.FName} {part.LName}");
+                    Console.WriteLine($"[{part.Id}] {part.FName} {part.LName}");
                 }
             }
 
