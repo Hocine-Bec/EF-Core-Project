@@ -4,7 +4,7 @@
     {
         public string? FName { get; set; }
         public string? LName { get; set; }
-
+        public string FullName => $"{FName} {LName}";
         public int OfficeId { get; set; }
         public Office? Office { get; set; }
 
