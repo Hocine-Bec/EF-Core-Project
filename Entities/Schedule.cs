@@ -13,6 +13,6 @@ namespace EF_Core_Project.Entities
         public bool FRI { get; set; }
         public bool SAT { get; set; }
 
-        public virtual ICollection<Section> Sections { get; set; } = new List<Section>();
+        public ICollection<Section> Sections { get; set; } = new List<Section>();
     }
 }
