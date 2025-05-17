@@ -13,6 +13,7 @@ namespace EF_Core_Project.Data
         public DbSet<Schedule> Schedules { get; set; }
         public DbSet<Participant> Particpants { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
+        public DbSet<Review> Reviews { get; set; }
 
         protected override void ConfigureConventions(ModelConfigurationBuilder builder)
         {
@@ -31,8 +32,9 @@ namespace EF_Core_Project.Data
             var connectionString = config.GetSection("constr").Value;
 
             optionsBuilder
-                .UseLazyLoadingProxies()
-                .UseSqlServer(connectionString);
+                .UseSqlServer(connectionString, o => 
+                    o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery))
+                .LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
