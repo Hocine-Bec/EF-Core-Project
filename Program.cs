@@ -11,40 +11,38 @@ namespace EF_Core_Project
         {
             //using (var context = new AppDbContext())
             //{
-            //    var section = context.Sections.FirstOrDefault(x => x.Id == 1);
+            //    var sectionQuery = context.Sections
+            //        .Include(x => x.Participants)
+            //        .Where(x => x.Id == 1);
 
-            //    Console.WriteLine("Before changing tracked object");
-            //    Console.WriteLine("-------------------------------");
-            //    Console.WriteLine(section.SectionName); //01A51C05
+            //    Console.WriteLine(sectionQuery.ToQueryString());
 
-            //    section.SectionName = "BlaBla";
-            //    context.SaveChanges();
+            //    var section = sectionQuery.FirstOrDefault();
 
-            //    Console.WriteLine("\nAfter changing tracked object");
-            //    Console.WriteLine("-------------------------------");
+            //    Console.WriteLine($"\nSection Name: {section.SectionName}");
 
-            //    section = context.Sections.FirstOrDefault(x => x.Id == 1);
-            //    Console.WriteLine(section.SectionName);
+            //    foreach (var part in section.Participants)
+            //    {
+            //        Console.WriteLine($"\n[{part.Id}] {part.FName} {part.LName}");
+            //    }
             //}
 
             using (var context = new AppDbContext())
             {
-                var section = context.Sections
-                    .AsNoTracking()
-                    .FirstOrDefault(x => x.Id == 1);
+                var sectionQuery = context.Sections
+                    .Include(x => x.Instructor)
+                    .ThenInclude(x => x.Office)
+                    .Where(x => x.Id == 1);
 
-                Console.WriteLine("Before changing tracked object");
-                Console.WriteLine("-------------------------------");
-                Console.WriteLine(section.SectionName); //BlaBla
+                Console.WriteLine(sectionQuery.ToQueryString());
 
-                section.SectionName = "01A51C05";
-                context.SaveChanges();
+                var section = sectionQuery.FirstOrDefault();
 
-                Console.WriteLine("\nAfter changing tracked object");
-                Console.WriteLine("-------------------------------");
+                Console.WriteLine($"\nSection Name: {section.SectionName}\n");
 
-                section = context.Sections.FirstOrDefault(x => x.Id == 1);
-                Console.WriteLine(section.SectionName);
+                Console.WriteLine($"[{section.Id}] " +
+                    $"{section.Instructor.FName} {section.Instructor.LName} " +
+                    $"[{section.Instructor.Office.OfficeName}]");
             }
 
             Console.ReadKey();
