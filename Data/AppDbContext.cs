@@ -32,8 +32,7 @@ namespace EF_Core_Project.Data
             var connectionString = config.GetSection("constr").Value;
 
             optionsBuilder
-                .UseSqlServer(connectionString, o => 
-                    o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery))
+                .UseSqlServer(connectionString)
                 .LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information);
         }
 

@@ -11,57 +11,28 @@ namespace EF_Core_Project
         {
             using (var context = new AppDbContext())
             {
-                //// proper projection (select) reduce network traffic
-                //// and reduce the effect on app performance
-                //var coursesProjection = context.Courses.AsNoTracking()
-                //    .Select(c => new
-                //    {
-                //        CourseId = c.Id,
-                //        CourseName = c.CourseName,
-                //        Hours = c.HoursToComplete,
-                //        Sections = c.Sections.Select(s => 
-                //        new
-                //        {
-                //            SectionId = s.Id,
-                //            SectionName = s.SectionName,
-                //            DateRange = s.DateRange.ToString(),
-                //            TimeSlot = s.TimeSlot.ToString()
-                //        }),
-                //        Reviews = c.Reviews.Select(r =>
-                //        new
-                //        {
-                //            FeedBack = r.Feedback,
-                //            CreatedAt = r.CreatedAt
-                //        })
-                //    }).ToList();   
-            }
+                ////Inner Join Using Query Syntax
+                //var querySyntax = (from c in context.Courses.AsNoTracking()
+                //              join s in context.Sections.AsNoTracking()
+                //                     on c.Id equals s.CourseId
+                //              select new
+                //              {
+                //                  c.CourseName,
+                //                  DateRange = s.DateRange.ToString(),
+                //                  TimeSlot = s.TimeSlot.ToString(),
+                //              }).ToList();
 
-            using (var context = new AppDbContext())
-            {
-                //var courses = context.Courses
-                //    .Include(x => x.Sections)
-                //    .Include(x => x.Reviews) // Cartesian Problem
-                //    .ToList();
-
-                //var courses = context.Courses
-                //  .AsNoTracking()
-                //  .Include(x => x.Sections)
-                //  .Include(x => x.Reviews)
-                //  .AsSplitQuery() // Explicit Split
-                //  .ToList();
-
-                //var courses = context.Courses
-                //  .AsNoTracking()
-                //  .Include(x => x.Sections)
-                //  .Include(x => x.Reviews) // Split By Config
-                //  .ToList();
-
-                var courses = context.Courses
-                  .AsNoTracking()
-                  .Include(x => x.Sections)
-                  .Include(x => x.Reviews)
-                  .AsSingleQuery() // Explicit Single Querying The Data
-                  .ToList();
+                // Inner Join Using Method Syntex
+                var methodSyntex = context.Courses.AsNoTracking()
+                    .Join(context.Sections.AsNoTracking(),
+                    c => c.Id,
+                    s => s.CourseId,
+                    (c, s) => new
+                    {
+                        c.CourseName,
+                        DateRange = s.DateRange.ToString(),
+                        TimeSlot = s.TimeSlot.ToString(),
+                    }).ToList();
             }
 
             Console.ReadKey();
