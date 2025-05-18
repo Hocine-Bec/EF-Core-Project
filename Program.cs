@@ -11,49 +11,30 @@ namespace EF_Core_Project
         {
             using (var context = new AppDbContext())
             {
-                ////Group By
-                //// Multiple Queries
-                //var querySyntax = (from s in context.Sections
-                //                   group s by s.Instructor into g
+                //SELECT MANY
+                //var querySyntax = (from c in context.Courses
+                //                   where c.CourseName.Contains("frontend") // Angular and react
+                //                   from s in c.Sections
+                //                   from p in s.Participants
                 //                   select new
                 //                   {
-                //                       key = g.Key,
-                //                       Sections = g.ToList()
-                //                   }).ToList();
-
-                //// One query using aggregate funcs
-                //var querySyntax = (from s in context.Sections
-                //                   group s by s.Instructor into g
-                //                   select new
-                //                   {
-                //                       key = g.Key,
-                //                       TotalSections = g.Count()
+                //                       PName = p.FullName,
                 //                   }).ToList();
 
 
-                //// Multiple Queries
-                //var methodSyntex = context.Sections
-                //    .GroupBy(x => x.Instructor)
-                //    .Select(x => new
-                //    {
-                //        key = x.Key,
-                //        Sections = x.ToList(),
-                //    }).ToList();
-
-                //// One query using aggregate funcs
-                var methodSyntex = context.Sections
-                    .GroupBy(x => x.Instructor)
+                var methodSyntex = context.Courses
+                    .Where(c => c.CourseName.Contains("frontend"))
+                    .SelectMany(s => s.Sections)
+                    .SelectMany(p => p.Participants)
                     .Select(x => new
                     {
-                        key = x.Key,
-                        Total = x.Count(),
-                    }).ToList();
-
+                        PName = x.FullName
+                    });
+                  
                 foreach (var item in methodSyntex)
                 {
-                    Console.WriteLine($"{item.key.FullName} => Total Sections: {item.Total}");
+                    Console.WriteLine(item.PName);
                 }
-
             }
         }
     }
