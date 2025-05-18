@@ -2,6 +2,7 @@
 using EF_Core_Project.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Linq;
 
 namespace EF_Core_Project
 {
@@ -11,30 +12,55 @@ namespace EF_Core_Project
         {
             using (var context = new AppDbContext())
             {
-                //SELECT MANY
-                //var querySyntax = (from c in context.Courses
-                //                   where c.CourseName.Contains("frontend") // Angular and react
-                //                   from s in c.Sections
-                //                   from p in s.Participants
-                //                   select new
-                //                   {
-                //                       PName = p.FullName,
-                //                   }).ToList();
+                int pageNumber = 1;
+                int pageSize = 10;
+                int totalSections = context.Sections.Count();
+                int totalPages = (int) Math.Ceiling((double)totalSections / pageSize);
 
+                var query = context.Sections.AsNoTracking()
+                   .Include(x => x.Course)
+                   .Include(x => x.Instructor)
+                   .Include(x => x.Schedule)
+                   .Select(x =>
+                   new
+                   {
+                       Course = x.Course.CourseName,
+                       Instructor = x.Instructor.FullName,
+                       DateRange = x.DateRange.ToString(),
+                       TimeSlot = x.TimeSlot.ToString(),
+                       Days = string.Join(" ",   // "SAT SUN MON"
+                              x.Schedule.SUN ? "SUN" : "   ",
+                              x.Schedule.SAT ? "SAT" : "   ",
+                              x.Schedule.MON ? "MON" : "   ",
+                              x.Schedule.TUE ? "TUE" : "   ",
+                              x.Schedule.WED ? "WED" : "   ",
+                              x.Schedule.THU ? "THU" : "   ",
+                              x.Schedule.FRI ? "FRI" : "   ")
+                   });
 
-                var methodSyntex = context.Courses
-                    .Where(c => c.CourseName.Contains("frontend"))
-                    .SelectMany(s => s.Sections)
-                    .SelectMany(p => p.Participants)
-                    .Select(x => new
-                    {
-                        PName = x.FullName
-                    });
-                  
-                foreach (var item in methodSyntex)
+                while (pageNumber <= totalPages)
                 {
-                    Console.WriteLine(item.PName);
+                    Console.Clear();
+                    Console.WriteLine("\n\n");
+                    Console.WriteLine("|           Course                   |          Instructor            |       Date Range        |   Time Slot   |            Days                |");
+                    Console.WriteLine("|------------------------------------|--------------------------------|-------------------------|---------------|--------------------------------|");
+
+                    var queryResult = query.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+
+                    foreach (var section in queryResult)
+                    {
+                        Console.WriteLine($"| {section.Course,-34} | {section.Instructor,-30} | {section.DateRange.ToString(),-23} | {section.TimeSlot.ToString(),-12} | {section.Days,-30} |");
+                    }
+
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Write($"\n\n\t\t\t\t{pageNumber}");
+                    Console.ResetColor();
+                    Console.WriteLine($" .....  {totalPages}");
+                    Console.ReadKey();
+                    ++pageNumber;
                 }
+
+                Console.ReadKey();
             }
         }
     }
