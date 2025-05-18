@@ -11,52 +11,27 @@ namespace EF_Core_Project
         {
             using (var context = new AppDbContext())
             {
-                ////Left Join Using Query Syntax
-                //var querySyntax = (from o in context.Offices
-                //                   join i in context.Instructors
-                //                   on o.Id equals i.OfficeId into officeVacancy
-                //                   from ov in officeVacancy.DefaultIfEmpty()
+                ////Cross Join Using Query Syntax
+                //var querySyntax = (from s in context.Sections
+                //                   from i in context.Instructors
                 //                   select new
                 //                   {
-                //                       OfficeId = o.Id,
-                //                       Name = o.OfficeName,
-                //                       Location = o.OfficeLocation,
-                //                       instructor = ov != null ? ov.FullName : "<<Empty>>"
+                //                      s.SectionName,
+                //                      i.FullName
                 //                   }).ToList();
 
-                //foreach (var item in querySyntax)
-                //{
-                //    Console.WriteLine($"{item.Name} => {item.instructor}");
-                //}
+                //Console.WriteLine(querySyntax.Count());
 
-                // Inner Join Using Method Syntex
-                var methodSyntex = context.Offices
-                    .GroupJoin
-                    (   
-                        context.Instructors,
-                        o => o.Id,
-                        i => i.OfficeId,
-                        (Office, Instructor) => new { Office, Instructor } 
-                    )
+                // Cross Join Using Method Syntex
+                var methodSyntex = context.Sections
                     .SelectMany
-                    ( 
-                        ov => ov.Instructor.DefaultIfEmpty(),
-                        (ov, Instructor) => new
-                        {
-                            OfficeId = ov.Office.Id,
-                            Name = ov.Office.OfficeName,
-                            Location = ov.Office.OfficeLocation,
-                            instructor = Instructor != null ? Instructor.FullName : "<<Empty>>"
-                        }
+                    (
+                        s => context.Instructors,
+                        (s, i) => new { s.SectionName, i.FullName }
                     ).ToList();
 
-                foreach (var item in methodSyntex)
-                {
-                    Console.WriteLine($"{item.Name} => {item.instructor}");
-                }
+                Console.WriteLine(methodSyntex.Count());
             }
-
-            Console.ReadKey();
         }
     }
 }
