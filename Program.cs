@@ -11,26 +11,49 @@ namespace EF_Core_Project
         {
             using (var context = new AppDbContext())
             {
-                ////Cross Join Using Query Syntax
+                ////Group By
+                //// Multiple Queries
                 //var querySyntax = (from s in context.Sections
-                //                   from i in context.Instructors
+                //                   group s by s.Instructor into g
                 //                   select new
                 //                   {
-                //                      s.SectionName,
-                //                      i.FullName
+                //                       key = g.Key,
+                //                       Sections = g.ToList()
                 //                   }).ToList();
 
-                //Console.WriteLine(querySyntax.Count());
+                //// One query using aggregate funcs
+                //var querySyntax = (from s in context.Sections
+                //                   group s by s.Instructor into g
+                //                   select new
+                //                   {
+                //                       key = g.Key,
+                //                       TotalSections = g.Count()
+                //                   }).ToList();
 
-                // Cross Join Using Method Syntex
+
+                //// Multiple Queries
+                //var methodSyntex = context.Sections
+                //    .GroupBy(x => x.Instructor)
+                //    .Select(x => new
+                //    {
+                //        key = x.Key,
+                //        Sections = x.ToList(),
+                //    }).ToList();
+
+                //// One query using aggregate funcs
                 var methodSyntex = context.Sections
-                    .SelectMany
-                    (
-                        s => context.Instructors,
-                        (s, i) => new { s.SectionName, i.FullName }
-                    ).ToList();
+                    .GroupBy(x => x.Instructor)
+                    .Select(x => new
+                    {
+                        key = x.Key,
+                        Total = x.Count(),
+                    }).ToList();
 
-                Console.WriteLine(methodSyntex.Count());
+                foreach (var item in methodSyntex)
+                {
+                    Console.WriteLine($"{item.key.FullName} => Total Sections: {item.Total}");
+                }
+
             }
         }
     }
