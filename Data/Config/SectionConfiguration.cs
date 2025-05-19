@@ -46,8 +46,11 @@ namespace EF_Core_Project.Data.Config
                 .IsRequired();
 
             builder.HasMany(c => c.Participants)
-          .WithMany(x => x.Sections)
-          .UsingEntity<Enrollment>();
+                .WithMany(x => x.Sections)
+                .UsingEntity<Enrollment>();
+
+            var dateFilter = DateOnly.FromDateTime(DateTime.Now.AddYears(-4)); 
+            builder.HasQueryFilter(x => x.DateRange.StartDate >= dateFilter);
 
             builder.ToTable("Sections");
         }
