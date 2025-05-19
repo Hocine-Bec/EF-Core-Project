@@ -32,7 +32,8 @@ namespace EF_Core_Project.Data
             var connectionString = config.GetSection("constr").Value;
 
             optionsBuilder
-                .UseSqlServer(connectionString);
+                .UseSqlServer(connectionString)
+                .LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
