@@ -1,4 +1,5 @@
-﻿using EF_Core_Project.Entities;
+﻿using EF_Core_Project.Data.Interceptors;
+using EF_Core_Project.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -33,6 +34,7 @@ namespace EF_Core_Project.Data
 
             optionsBuilder
                 .UseSqlServer(connectionString)
+                .AddInterceptors(new SoftDeleteInterceptor())
                 .LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information);
         }
 

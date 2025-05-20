@@ -25,6 +25,11 @@ namespace EF_Core_Project.Data.Config
                     .HasForeignKey<Instructor>(x => x.OfficeId)
                     .IsRequired(false);
 
+            builder.Property(x => x.IsDeleted)
+                .IsRequired();
+
+            builder.HasQueryFilter(x => x.IsDeleted == false);
+
             builder.ToTable("Instructors");
         }
     }

@@ -1,8 +1,5 @@
 ﻿using EF_Core_Project.Data;
-using EF_Core_Project.Entities;
-using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
-using System.Linq;
+using Microsoft.Extensions.Configuration;
 
 namespace EF_Core_Project
 {
@@ -12,9 +9,23 @@ namespace EF_Core_Project
         {
             using (var context = new AppDbContext())
             {
-                foreach (var sec in context.Sections)
+                var instructors = context.Instructors.ToList();
+
+                Console.WriteLine("Before Deleting:");
+                foreach (var instructor in instructors)
                 {
-                    Console.WriteLine($"[{sec.Id}]\t{sec.SectionName}\t{sec.DateRange.StartDate.ToString()}");
+                    Console.WriteLine($"- ID: [{instructor.Id}]\tFullName: {instructor.FullName, 15}\t\tIs Deleted: {instructor.IsDeleted}\tDeleted Date:{instructor.DateDeleted}");
+                }
+                Console.WriteLine();
+
+                var inst = context.Instructors.First();
+                context.Instructors.Remove(inst);
+                context.SaveChanges();
+
+                Console.WriteLine("After Deleting Instructor With ID = 1:");
+                foreach (var instructor in instructors)
+                {
+                    Console.WriteLine($"- ID: [{instructor.Id}]\tFullName: {instructor.FullName, 15}\t\tIs Deleted: {instructor.IsDeleted}\tDeleted Date:{instructor.DateDeleted}");
                 }
             }
         }
